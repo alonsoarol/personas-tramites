@@ -1,5 +1,6 @@
 import express, { json } from "express";
 import Persona from "../models/persona.model.js";
+import { personaValidateCreate } from "../validators/persona.js";
 
 export const personaRouter = express.Router();
 
@@ -13,7 +14,7 @@ personaRouter.get("/persona/:id", async (req, res) => {
   res.json(persona);
 });
 
-personaRouter.post("/persona", async (req, res) => {
+personaRouter.post("/persona", personaValidateCreate, async (req, res) => {
   const { nombre, apellido, email, dni, tel, fecha_nacimiento } = req.body;
   const userEmail = await Persona.findOne({ email: email });
   if (userEmail) {
