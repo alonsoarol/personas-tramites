@@ -2,6 +2,7 @@ import express, { json } from "express";
 import Tramite from "../models/tramite.model.js";
 import Persona from "../models/persona.model.js";
 import Tipos from "../models/tipos.model.js";
+import { tramiteValidateCreate } from "../validators/tramite.js";
 
 export const tramiteRouter = express.Router();
 
@@ -21,7 +22,7 @@ tramiteRouter.get("/tramite/:id", async (req, res) => {
   });
 });
 
-tramiteRouter.post("/tramite", async (req, res) => {
+tramiteRouter.post("/tramite", tramiteValidateCreate, async (req, res) => {
   const { descripcion, fecha_de_alta, fecha_de_cierre, tipo, dni_persona } =
     req.body;
   const tipoId = await Tipos.findOne({ tipo: tipo });
